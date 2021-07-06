@@ -1,14 +1,16 @@
 {
 	"compilerOptions": {
 		"forceConsistentCasingInFileNames": true,
+		"lib": ["dom", "dom.iterable", "esnext"],
 		"target": "es2019",
-		"module": "commonjs",
+		"module": "esnext",
 		"moduleResolution": "node",
 		"newLine": "lf",
 		"importHelpers": true,
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitReturns": true,
 		"noUnusedLocals": true,
+		"allowSyntheticDefaultImports": true,
 		"noUnusedParameters": true,
 		"pretty": true,
 		"removeComments": true,
@@ -19,7 +21,13 @@
 		"declaration": true,
 		"noImplicitAny": false,
 		"rootDir": "./src",
-		"outDir": "./dist"
+		"outDir": "./dist",
+		"jsx": "react-jsx",
+		"allowJs": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"noEmit": true
 	},
-	"include": ["./src/**/*.ts", "./src/**/*.json"]
+	"include": ["./src/**/*.ts", "./src/**/*.json", "./src/**/*.tsx"]
 }
