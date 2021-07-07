@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable no-console */
-import { useState, useEffect } from 'react';
-import { HeaderContent, RowContent } from '../../models';
+import { useEffect, useState } from 'react';
+import { reducerAccountsList } from '../../logic/reducerRoles';
+import { AccountRolesContent, HeaderContent } from '../../models';
+import { AccountCard } from '../AccountCard/AccountCard';
 import { Card } from '../UI/Card';
 import { CardHeader } from '../UI/CardHeader';
-import { RolesTable } from './RolesTable';
-import { reducerRolesList } from '../../logic/reducerRoles';
-import { RoleCard } from '../RoleCard/RoleCard';
+import { AccountsTable } from './AccountsTable';
 
-export const RolesCard = () => {
+export const AccountsCard = () => {
 	// fetch
 	const [loading, setLoading] = useState(true);
-	const [content, setContent] = useState<RowContent[]>([]);
+	const [content, setContent] = useState<AccountRolesContent>({} as AccountRolesContent);
 
 	const [roleCardId, setRoleCardId] = useState('0');
 	const [displayRoleCard, setDisplayRoleCard] = useState(false);
@@ -26,7 +26,7 @@ export const RolesCard = () => {
 
 	useEffect(() => {
 		async function fetchContent() {
-			const fetchedContent = await reducerRolesList();
+			const fetchedContent = await reducerAccountsList();
 			setContent(fetchedContent);
 			setLoading(false);
 		}
@@ -36,10 +36,14 @@ export const RolesCard = () => {
 
 	return !displayRoleCard ? (
 		<Card>
-			<CardHeader headerContent={new HeaderContent('Roles')} />
-			{!loading ? <RolesTable onOpenRoleCard={openRoleCard} rowContent={content} /> : <div></div>}
+			<CardHeader headerContent={new HeaderContent('Accounts')} />
+			{!loading ? (
+				<AccountsTable onOpenRoleCard={openRoleCard} rowContent={content} />
+			) : (
+				<div></div>
+			)}
 		</Card>
 	) : (
-		<RoleCard roleId={roleCardId} />
+		<AccountCard address={roleCardId} />
 	);
 };

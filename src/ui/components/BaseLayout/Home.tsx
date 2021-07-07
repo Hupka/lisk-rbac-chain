@@ -25,6 +25,7 @@ import {
 	XIcon,
 } from '@heroicons/react/outline';
 import { Fragment, useState } from 'react';
+import Breadcrumbs from './Breadcrumbs';
 import { Content } from './Content';
 
 const navigation = [
@@ -228,7 +229,7 @@ export default function Home() {
 											onClick={() => {
 												setcState(!cState);
 											}}
-											className="inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-green-50 bg-gray-700 hover:bg-gray-800  border-gray-600"
+											className="inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-green-50 bg-gray-800 hover:bg-gray-800  border-gray-600"
 										>
 											Connection established
 											<img
@@ -244,11 +245,11 @@ export default function Home() {
 											onClick={() => {
 												setcState(!cState);
 											}}
-											className="inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-red-500 bg-gray-700 hover:bg-gray-800  border-red-500"
+											className="inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-red-500 bg-gray-800 hover:bg-gray-800  border-red-500"
 										>
 											No connection
 											<img
-												className="h-4 w-auto ml-2 -mr-1 h-5 w-5"
+												className="w-auto ml-2 -mr-1 h-5 w-5"
 												// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 												src={`${process.env.PUBLIC_URL}assets/ic_unpair1_24px.svg`}
 												alt="Workflow"
@@ -266,7 +267,7 @@ export default function Home() {
 				</div>
 			</div>
 			<div className="flex flex-col w-0 flex-1 overflow-hidden">
-				<div className="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
+				<div className="relative z-10 flex-shrink-0 flex h-16 bg-white border-b">
 					<button
 						className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
 						onClick={() => setHomeOpen(true)}
@@ -284,6 +285,7 @@ export default function Home() {
 						</div>
 					</div>
 				</div>
+				<Breadcrumbs />
 
 				<main className="flex-1 relative overflow-y-auto focus:outline-none">
 					<div className="py-6">

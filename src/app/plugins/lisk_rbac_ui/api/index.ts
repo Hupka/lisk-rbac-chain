@@ -33,3 +33,20 @@ export const getRoleAccounts = async (roleId: string): Promise<[{ address: strin
 
   return body;
 }
+
+export const getAccountsRoles = async (address: string): Promise<RBACRoleRecord[]> => {
+  const result = await fetch(`http://localhost:4000/rbac/accounts/${address}/roles`)
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const body: RBACRoleRecord[] = await result.json() as RBACRoleRecord[];
+
+  return body;
+}
+
+export const getAccountPermissions = async (address: string): Promise<RBACPermissionRecord[]> => {
+  const result = await fetch(`http://localhost:4000/rbac/accounts/${address}/permissions?fields=full`)
+
+  const body: RBACPermissionRecord[] = await result.json() as RBACPermissionRecord[];
+
+  return body;
+}

@@ -1,8 +1,13 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable no-console */
+
 import { RBACPermissionRecord, RBACRoleRecord } from "lisk-rbac/dist/schemas";
 import * as api from '../../app/plugins/lisk_rbac_ui/api/index';
-import { RoleContent, RowContent } from "../models";
+import { AccountContent, AccountRolesContent, AccountsRowContent, RoleContent, RowContent } from "../models";
 
-/* eslint-disable no-console */
 export const reducerRolesList = async (): Promise<RowContent[]> => {
 
   const allRoles: RBACRoleRecord[] = await api.getRoles();
@@ -40,5 +45,53 @@ export const reducerRole = async (roleId: string): Promise<RoleContent> => {
       addresses: roleAccounts.map(x => Buffer.from(x.address, 'hex')),
       lifecycle: ""
     }
+  );
+}
+
+export const reducerAccountsList = async (): Promise<AccountRolesContent> => {
+  const roleItems: RBACRoleRecord[] = await api.getRoles();
+
+  // get a list of all addresses
+  const accountsWithRoles: { [address: string]: string } = {};
+  for (const role of roleItems) {
+    const roleAccounts = await api.getRoleAccounts(role.id);
+
+    for (const account of roleAccounts) {
+      accountsWithRoles[account.address] = account.address;
+    }
+  }
+
+  const rowItemContent: AccountsRowContent[] = [];
+  for (const address in accountsWithRoles) {
+    if (Object.prototype.hasOwnProperty.call(accountsWithRoles, address)) {
+      const addressString = accountsWithRoles[address];
+
+      const accountRoles = await api.getAccountsRoles(addressString);
+
+      rowItemContent.push(new AccountsRowContent(
+        accountRoles.map(x => x.id),
+        addressString,
+        roleItems
+      ))
+    }
+  }
+
+  const result: AccountRolesContent = {
+    roles: roleItems,
+    accountRows: rowItemContent
+  }
+
+  return (result)
+}
+
+export const reducerAccountContent = async (address: string): Promise<AccountContent> => {
+
+  const accountRoles = await api.getAccountsRoles(address);
+  const accountPermissions = await api.getAccountPermissions(address);
+
+  return new AccountContent(
+    Buffer.from(address, 'hex'),
+    accountRoles,
+    accountPermissions
   );
 }

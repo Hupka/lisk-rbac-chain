@@ -2,20 +2,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable no-console */
 
-import { AccountCard } from '../AccountCard/AccountCard';
+import { AccountsCard } from '../Accounts/AccountsCard';
 import { Dashboard } from '../Dashboard/Dashboard';
 import { RolesCard } from '../RolesCard/RolesCard';
 
 export const Content: React.FC<{ category: string }> = props => {
-	// const [closeRoleCard, setCloseRoleCard] = useState(false);
-	// const [roleId, setRoleId] = useState('1');
-
 	switch (props.category) {
 		case 'roles':
 			console.log('clicked switch');
 			return <RolesCard />;
 		case 'accounts':
-			return <AccountCard></AccountCard>;
+			return <AccountsCard />;
 		default:
 			return <Dashboard />;
 	}
