@@ -2,7 +2,7 @@ import { HTTPAPIPermissionRecord, HTTPAPIRoleRecord, RBACPermissionRecord } from
 import * as api from '../../app/plugins/lisk_rbac_ui/api/index';
 import { RBACRoleRecord, RoleContent, RowContent } from "../models";
 
-
+/* eslint-disable no-console */
 export const reducerRolesList = async (): Promise<RowContent[]> => {
 
   const allRoles: HTTPAPIRoleRecord[] = await api.getRoles();

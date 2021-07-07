@@ -1,5 +1,5 @@
 import { RowContent } from '../../models';
-
+/* eslint-disable no-console */
 export const TableRow: React.FC<{
 	rowContent: RowContent[];
 	onOpenRoleCard: (text: string) => void;
@@ -21,7 +21,10 @@ export const TableRow: React.FC<{
 				<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{role.minAccounts}</td>
 				<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
 					<a
-						onClick={() => props.onOpenRoleCard(role.roleId)}
+						onClick={() => {props.onOpenRoleCard(role.roleId)
+						console.log(role)
+						}}
+
 						href="#"
 						className="text-indigo-600 hover:text-indigo-900"
 					>
