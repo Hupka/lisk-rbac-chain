@@ -41,7 +41,7 @@ export default function Home() {
 	const [homeOpen, setHomeOpen] = useState(false);
 	const [homeCategory, setHomeCategory] = useState('dashboard');
 	// logic need to be added here
-	const [cState, setcState] = useState(false)
+	const [cState, setcState] = useState(false);
 	const openDashboardPanel = () => {
 		setHomeCategory('dashboard');
 
@@ -140,8 +140,8 @@ export default function Home() {
 												item.name === 'dashboard'
 													? openDashboardPanel
 													: item.name === 'accounts'
-														? openAccountsPanel
-														: openRolesPanel
+													? openAccountsPanel
+													: openRolesPanel
 											}
 											key={item.name}
 											href={item.href}
@@ -195,8 +195,8 @@ export default function Home() {
 											item.name === 'Dashboard'
 												? openDashboardPanel
 												: item.name === 'Accounts'
-													? openAccountsPanel
-													: openRolesPanel
+												? openAccountsPanel
+												: openRolesPanel
 										}
 										key={item.name}
 										href={item.href}
@@ -219,38 +219,47 @@ export default function Home() {
 								))}
 							</nav>
 						</div>
-						<div className="flex-shrink-0 flex bg-gray-800 p-8">
+						<div className="flex-shrink-0 flex bg-gray-800 p-4">
 							<a href="#" className="flex-shrink-0 w-full group block">
-								<div className="flex justify-center">
-									<div>
-										{cState ? <button
+								<div className="flex flex-col items-center">
+									{cState ? (
+										<button
 											type="button"
 											onClick={() => {
-												setcState(!cState)
+												setcState(!cState);
 											}}
-											className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-gray-700"
+											className="inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-green-50 bg-gray-700 hover:bg-gray-800  border-gray-600"
 										>
-											Connected 🔗😎
-
-										</button> :
-											<button
-												type="button"
-												onClick={() => {
-													setcState(!cState)
-												}}
-												className="inline-flex items-center px-4 py-2 border-2 border-red-500 shadow-sm text-base font-medium rounded-md text-red-500 bg-gray-700"
-											>
-												No connection ☹️
-
-											</button>
-										}
-									</div>
-									{/* <div className="ml-3">
+											Connection established
+											<img
+												className="h-4 w-auto ml-2 -mr-1 h-5 w-5"
+												// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+												src={`${process.env.PUBLIC_URL}assets/ic_pair_124px.svg`}
+												alt="Workflow"
+											/>
+										</button>
+									) : (
+										<button
+											type="button"
+											onClick={() => {
+												setcState(!cState);
+											}}
+											className="inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-red-500 bg-gray-700 hover:bg-gray-800  border-red-500"
+										>
+											No connection
+											<img
+												className="h-4 w-auto ml-2 -mr-1 h-5 w-5"
+												// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+												src={`${process.env.PUBLIC_URL}assets/ic_unpair1_24px.svg`}
+												alt="Workflow"
+											/>
+										</button>
+									)}
+								</div>
+								{/* <div className="ml-3">
 										<p className="text-sm font-medium text-white">Tom Cook</p>
 										<p className="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
 									</div> */}
-								</div>
-
 							</a>
 						</div>
 					</div>
@@ -285,7 +294,6 @@ export default function Home() {
 						</div>
 					</div>
 				</main>
-
 			</div>
 		</div>
 	);

@@ -1,27 +1,26 @@
 /* eslint-disable arrow-body-style */
-import { HTTPAPIPermissionRecord } from "lisk-rbac/dist/schemas";
-import { HTTPAPIRoleRecord } from "../../../../ui/models";
+import { RBACPermissionRecord, RBACRoleRecord } from "lisk-rbac/dist/schemas";
 
-export const getRole = async (roleId: string): Promise<HTTPAPIRoleRecord> => {
-  const result = await fetch(`http://localhost:4000/rbac/roles/${roleId}`)
+export const getRole = async (roleId: string): Promise<RBACRoleRecord> => {
+  const result = await fetch(`http://localhost:4000/rbac/roles/${roleId}/?fields=full`)
 
-  const body: HTTPAPIRoleRecord = await result.json() as HTTPAPIRoleRecord;
-
-  return body;
-}
-
-export const getRoles = async (): Promise<HTTPAPIRoleRecord[]> => {
-  const result = await fetch(`http://localhost:4000/rbac/roles`)
-
-  const body: HTTPAPIRoleRecord[] = await result.json() as HTTPAPIRoleRecord[];
+  const body: RBACRoleRecord = await result.json() as RBACRoleRecord;
 
   return body;
 }
 
-export const getRolePermissions = async (roleId: string): Promise<HTTPAPIPermissionRecord[]> => {
-  const result = await fetch(`http://localhost:4000/rbac/roles/${roleId}/permissions`)
+export const getRoles = async (): Promise<RBACRoleRecord[]> => {
+  const result = await fetch(`http://localhost:4000/rbac/roles?fields=full`)
 
-  const body: HTTPAPIPermissionRecord[] = await result.json() as HTTPAPIPermissionRecord[];
+  const body: RBACRoleRecord[] = await result.json() as RBACRoleRecord[];
+
+  return body;
+}
+
+export const getRolePermissions = async (roleId: string): Promise<RBACPermissionRecord[]> => {
+  const result = await fetch(`http://localhost:4000/rbac/roles/${roleId}/permissions?fields=full`)
+
+  const body: RBACPermissionRecord[] = await result.json() as RBACPermissionRecord[];
 
   return body;
 }
