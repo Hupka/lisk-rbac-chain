@@ -7,11 +7,11 @@
   ```
   // tailwind.config.js
   module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ]
+	// ...
+	plugins: [
+	  // ...
+	  require('@tailwindcss/forms'),
+	]
   }
   ```
 */
@@ -40,7 +40,8 @@ function classNames(...classes: string[]) {
 export default function Home() {
 	const [homeOpen, setHomeOpen] = useState(false);
 	const [homeCategory, setHomeCategory] = useState('dashboard');
-
+	// logic need to be added here
+    const [cState,setcState] = useState(false)
 	const openDashboardPanel = () => {
 		setHomeCategory('dashboard');
 
@@ -139,8 +140,8 @@ export default function Home() {
 												item.name === 'dashboard'
 													? openDashboardPanel
 													: item.name === 'accounts'
-													? openAccountsPanel
-													: openRolesPanel
+														? openAccountsPanel
+														: openRolesPanel
 											}
 											key={item.name}
 											href={item.href}
@@ -194,8 +195,8 @@ export default function Home() {
 											item.name === 'Dashboard'
 												? openDashboardPanel
 												: item.name === 'Accounts'
-												? openAccountsPanel
-												: openRolesPanel
+													? openAccountsPanel
+													: openRolesPanel
 										}
 										key={item.name}
 										href={item.href}
@@ -218,6 +219,40 @@ export default function Home() {
 								))}
 							</nav>
 						</div>
+						<div className="flex-shrink-0 flex bg-gray-800 p-8">
+							<a href="#" className="flex-shrink-0 w-full group block">
+								<div className="flex justify-center">
+									<div>
+										{ cState ? <button
+											type="button"
+											onClick={() => {
+												setcState(!cState)
+											  }}
+											className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-gray-700"
+										>
+											Connected 🔗😎
+											
+										</button>:
+										<button
+											type="button"
+											onClick={() => {
+												setcState(!cState)
+											  }}
+											className="inline-flex items-center px-4 py-2 border-2 border-red-800 shadow-sm text-base font-medium rounded-md text-red-800 bg-gray-700"
+										>
+											No connection ☹️
+											 
+										</button>
+}
+									</div>
+									{/* <div className="ml-3">
+										<p className="text-sm font-medium text-white">Tom Cook</p>
+										<p className="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
+									</div> */}
+								</div>
+								
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -233,7 +268,7 @@ export default function Home() {
 					<div className="flex-1 px-4 flex justify-between">
 						<div className="flex-1 flex"></div>
 						<div className="ml-4 flex items-center md:ml-6">
-							<button className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+							<button className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500">
 								<span className="sr-only">View notifications</span>
 								<BellIcon className="h-6 w-6" aria-hidden="true" />
 							</button>
@@ -250,6 +285,7 @@ export default function Home() {
 						</div>
 					</div>
 				</main>
+
 			</div>
 		</div>
 	);
