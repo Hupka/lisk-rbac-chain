@@ -1,42 +1,35 @@
-import { HeaderContent, RowContent } from "../../models";
-import { Card } from "../UI/Card";
-import { CardHeader } from "../UI/CardHeader";
-import { RolesTable } from "./RolesTable";
+/* eslint-disable @typescript-eslint/no-floating-promises */
+import React, { useState, useEffect } from 'react';
+import { HeaderContent, RowContent } from '../../models';
+import { Card } from '../UI/Card';
+import { CardHeader } from '../UI/CardHeader';
+import { RolesTable } from './RolesTable';
+import { reducerRolesList } from '../../logic/reducerRoles';
 
-export const RolesCard: React.FC<{ onOpenRoleCard: (text: string) => void }> = (
-  props
-) => {
-  const content: RowContent[] = [
-    new RowContent(
-      "1",
-      "rbac_admin",
-      "Role has permissions to change the RBAC ruleset.",
-      3,
-      3,
-      1
-    ),
-    new RowContent(
-      "2",
-      "role_membership_admin",
-      "Role has permissions to assign and remove roles from accounts.",
-      3,
-      14,
-      1
-    ),
-    new RowContent(
-      "3",
-      "super_admin",
-      "Role inherits permissions from the two roles rbac_admin and role_membership_admin.",
-      7,
-      1,
-      1
-    ),
-  ];
+// import { callActions } from '../../logic';
 
-  return (
-    <Card>
-      <CardHeader headerContent={new HeaderContent("Roles")} />
-      <RolesTable onOpenRoleCard={props.onOpenRoleCard} rowContent={content} />
-    </Card>
-  );
+export const RolesCard: React.FC<{ onOpenRoleCard: (text: string) => void }> = props => {
+	// fetch
+	const [loading, setLoading] = useState(true);
+	const [content, setContent] = useState<RowContent[]>([]);
+	// const content: RowContent[] = [];
+	useEffect(() => {
+		async function fetchContent() {
+			const fetchedContent = await reducerRolesList();
+			setContent(fetchedContent);
+			setLoading(false);
+		}
+		fetchContent();
+	}, []);
+
+	return (
+		<Card>
+			<CardHeader headerContent={new HeaderContent('Roles')} />
+			{!loading ? (
+				<RolesTable onOpenRoleCard={props.onOpenRoleCard} rowContent={content} />
+			) : (
+				<div></div>
+			)}
+		</Card>
+	);
 };

@@ -37,12 +37,12 @@ function classNames(...classes: string[]) {
 	return classes.filter(Boolean).join(' ');
 }
 
-export default function Sidebar() {
-	const [sidebarOpen, setSidebarOpen] = useState(false);
-	const [sidebarCategory, setSidebarCategory] = useState('dashboard');
+export default function Home() {
+	const [homeOpen, setHomeOpen] = useState(false);
+	const [homeCategory, setHomeCategory] = useState('dashboard');
 
 	const openDashboardPanel = () => {
-		('dashboard');
+		setHomeCategory('dashboard');
 
 		for (const item of navigation) {
 			if (item.name === 'Dashboard') {
@@ -53,7 +53,7 @@ export default function Sidebar() {
 		}
 	};
 	const openRolesPanel = () => {
-		setSidebarCategory('roles');
+		setHomeCategory('roles');
 		for (const item of navigation) {
 			if (item.name === 'Roles') {
 				item.current = true;
@@ -63,7 +63,7 @@ export default function Sidebar() {
 		}
 	};
 	const openAccountsPanel = () => {
-		setSidebarCategory('accounts');
+		setHomeCategory('accounts');
 		for (const item of navigation) {
 			if (item.name === 'Accounts') {
 				item.current = true;
@@ -75,13 +75,13 @@ export default function Sidebar() {
 
 	return (
 		<div className="h-screen flex overflow-hidden bg-gray-200">
-			<Transition.Root show={sidebarOpen} as={Fragment}>
+			<Transition.Root show={homeOpen} as={Fragment}>
 				<Dialog
 					as="div"
 					static
 					className="fixed inset-0 flex z-40 md:hidden"
-					open={sidebarOpen}
-					onClose={setSidebarOpen}
+					open={homeOpen}
+					onClose={setHomeOpen}
 				>
 					<Transition.Child
 						as={Fragment}
@@ -116,7 +116,7 @@ export default function Sidebar() {
 								<div className="absolute top-0 right-0 -mr-12 pt-2">
 									<button
 										className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-										onClick={() => setSidebarOpen(false)}
+										onClick={() => setHomeOpen(false)}
 									>
 										<span className="sr-only">Close sidebar</span>
 										<XIcon className="h-6 w-6 text-white" aria-hidden="true" />
@@ -225,7 +225,7 @@ export default function Sidebar() {
 				<div className="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
 					<button
 						className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
-						onClick={() => setSidebarOpen(true)}
+						onClick={() => setHomeOpen(true)}
 					>
 						<span className="sr-only">Open sidebar</span>
 						<MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
@@ -245,7 +245,7 @@ export default function Sidebar() {
 					<div className="py-6">
 						<div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
 							{/* Replace with your content */}
-							<Content category={sidebarCategory} />
+							<Content category={homeCategory} />
 							{/* /End replace */}
 						</div>
 					</div>

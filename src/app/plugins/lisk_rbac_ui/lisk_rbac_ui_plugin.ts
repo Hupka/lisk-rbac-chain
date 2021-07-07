@@ -1,16 +1,19 @@
+import type { ActionsDefinition, BaseChannel, EventsDefinition, SchemaWithDefault } from 'lisk-sdk';
 import { BasePlugin, PluginInfo } from 'lisk-sdk';
-import type { BaseChannel, EventsDefinition, ActionsDefinition, SchemaWithDefault } from 'lisk-sdk';
 
- /* eslint-disable class-methods-use-this */
- /* eslint-disable  @typescript-eslint/no-empty-function */
- export class LiskRbacUIPlugin extends BasePlugin {
+// interface RbacUIPluginOptions extends PluginOptionsWithAppConfig {
+// 	applicationUrl: string;
+// 	port: number;
+// 	host: string;
+// }
+
+export class LiskRbacUIPlugin extends BasePlugin {
 	// private _channel!: BaseChannel;
 
 	public static get alias(): string {
 		return 'LiskRbacUI';
 	}
 
-	// eslint-disable-next-line @typescript-eslint/class-literal-property-style
 	public static get info(): PluginInfo {
 		return {
 			author: 'hupka.adrian@gmail.com',
@@ -19,14 +22,32 @@ import type { BaseChannel, EventsDefinition, ActionsDefinition, SchemaWithDefaul
 		};
 	}
 
-	// eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
 	public get defaults(): SchemaWithDefault {
 		return {
 			$id: '/plugins/plugin-LiskRbacUI/config',
 			type: 'object',
-			properties: {},
+			properties: {
+				applicationUrl: {
+					type: 'string',
+					format: 'uri',
+					description: 'URL to connect',
+				},
+				port: {
+					type: 'integer',
+					minimum: 1,
+					maximum: 65535,
+				},
+				host: {
+					type: 'string',
+					format: 'ip',
+				},
+			},
 			required: [],
-			default: {},
+			default: {
+				applicationUrl: 'ws://localhost:8080/ws',
+				port: 4005,
+				host: '127.0.0.1',
+			},
 		}
 	}
 
@@ -39,14 +60,15 @@ import type { BaseChannel, EventsDefinition, ActionsDefinition, SchemaWithDefaul
 
 	public get actions(): ActionsDefinition {
 		return {
-		// 	hello: async () => { hello: 'world' },
+			// 	hello: async () => { hello: 'world' },
 		};
 	}
 
-		public async load(_: BaseChannel): Promise<void> {
+	public async load(_: BaseChannel): Promise<void> {
 		// this._channel = channel;
 		// this._channel.once('app:ready', () => {});
 	}
 
-	public async unload(): Promise<void> {}
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	public async unload(): Promise<void> { }
 }
