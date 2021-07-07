@@ -4,6 +4,7 @@
 import { AccountCard } from '../AccountCard/AccountCard';
 // import { RoleCard } from '../RoleCard/RoleCard';
 import { RolesCard } from '../RolesCard/RolesCard';
+import { Dashboard } from '../Dashboard/_dashboard';
 /* eslint-disable no-console */
 export const Content: React.FC<{ category: string }> = props => {
 
@@ -18,9 +19,9 @@ export const Content: React.FC<{ category: string }> = props => {
 			return <RolesCard />;
 		case 'accounts':
 		
-			return <p></p>;
+			return <AccountCard></AccountCard>
 		default:
 		
-			return <AccountCard></AccountCard>;
+			return <Dashboard></Dashboard>;
 	}
 };

@@ -41,7 +41,7 @@ export default function Home() {
 	const [homeOpen, setHomeOpen] = useState(false);
 	const [homeCategory, setHomeCategory] = useState('dashboard');
 	// logic need to be added here
-    const [cState,setcState] = useState(false)
+	const [cState, setcState] = useState(false)
 	const openDashboardPanel = () => {
 		setHomeCategory('dashboard');
 
@@ -223,34 +223,34 @@ export default function Home() {
 							<a href="#" className="flex-shrink-0 w-full group block">
 								<div className="flex justify-center">
 									<div>
-										{ cState ? <button
+										{cState ? <button
 											type="button"
 											onClick={() => {
 												setcState(!cState)
-											  }}
+											}}
 											className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-gray-700"
 										>
 											Connected 🔗😎
-											
-										</button>:
-										<button
-											type="button"
-											onClick={() => {
-												setcState(!cState)
-											  }}
-											className="inline-flex items-center px-4 py-2 border-2 border-red-800 shadow-sm text-base font-medium rounded-md text-red-800 bg-gray-700"
-										>
-											No connection ☹️
-											 
-										</button>
-}
+
+										</button> :
+											<button
+												type="button"
+												onClick={() => {
+													setcState(!cState)
+												}}
+												className="inline-flex items-center px-4 py-2 border-2 border-red-500 shadow-sm text-base font-medium rounded-md text-red-500 bg-gray-700"
+											>
+												No connection ☹️
+
+											</button>
+										}
 									</div>
 									{/* <div className="ml-3">
 										<p className="text-sm font-medium text-white">Tom Cook</p>
 										<p className="text-xs font-medium text-gray-300 group-hover:text-gray-200">View profile</p>
 									</div> */}
 								</div>
-								
+
 							</a>
 						</div>
 					</div>
