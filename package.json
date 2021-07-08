@@ -86,6 +86,7 @@
 		"lisk-rbac": "^1.1.2",
 		"lisk-sdk": "^5.1.0",
 		"react": "^17.0.2",
+		"react-cookie": "^4.0.3",
 		"react-dom": "^17.0.2",
 		"react-scripts": "4.0.3",
 		"tailwindcss": "^2.2.4",
