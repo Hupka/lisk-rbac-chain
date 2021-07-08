@@ -6,7 +6,7 @@ import { XIcon } from '@heroicons/react/solid'
 import { useState,Fragment } from 'react';
 /* eslint-disable  */
 
-export const Dashboard = () => {
+export const Dashboard: React.FC<{ callback: () => void }> = props => {
 	const [setupState, setSetupState] = useState(false);
 	const [tryConnect, setTryConnect] = useState(false);
 	const [show, setShow] = useState(false)
@@ -67,6 +67,7 @@ export const Dashboard = () => {
 								// change button color
 								setTryConnect(false)
 								setSetupState(true);
+								props.callback()	
 							}
 							else{
 								// TODO:catch more errors

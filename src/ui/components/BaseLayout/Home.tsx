@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+/* eslint-disable  @typescript-eslint/no-misused-promises */
 /*
   This example requires Tailwind CSS v2.0+ 
   
@@ -15,6 +16,9 @@
   }
   ```
 */
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+ 
 import { Dialog, Transition } from '@headlessui/react';
 import {
 	AcademicCapIcon,
@@ -25,8 +29,10 @@ import {
 	XIcon,
 } from '@heroicons/react/outline';
 import { Fragment, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import Breadcrumbs from './Breadcrumbs';
 import { Content } from './Content';
+import { ApiConnection } from '../../logic/apiConnection';
 
 const navigation = [
 	{ name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
@@ -41,8 +47,24 @@ function classNames(...classes: string[]) {
 export default function Home() {
 	const [homeOpen, setHomeOpen] = useState(false);
 	const [homeCategory, setHomeCategory] = useState('dashboard');
+	const [cookies] = useCookies(['cookie-name']);
 	// logic need to be added here
 	const [cState, setcState] = useState(false);
+
+    function urlIsSet(){
+		setcState(true)
+		setInterval(async () => {
+			const result = await ApiConnection(cookies['api-url'])
+			console.log(result)
+			if (result) {
+				setcState(true)
+			} else {
+				setcState(false)
+			}
+			
+		}, 10000);
+	}
+
 	const openDashboardPanel = () => {
 		setHomeCategory('dashboard');
 
@@ -74,6 +96,9 @@ export default function Home() {
 			}
 		}
 	};
+
+	
+
 
 	return (
 		<div className="h-screen flex overflow-hidden bg-gray-200">
@@ -141,8 +166,8 @@ export default function Home() {
 												item.name === 'dashboard'
 													? openDashboardPanel
 													: item.name === 'accounts'
-													? openAccountsPanel
-													: openRolesPanel
+														? openAccountsPanel
+														: openRolesPanel
 											}
 											key={item.name}
 											href={item.href}
@@ -196,8 +221,8 @@ export default function Home() {
 											item.name === 'Dashboard'
 												? openDashboardPanel
 												: item.name === 'Accounts'
-												? openAccountsPanel
-												: openRolesPanel
+													? openAccountsPanel
+													: openRolesPanel
 										}
 										key={item.name}
 										href={item.href}
@@ -227,7 +252,7 @@ export default function Home() {
 										<button
 											type="button"
 											onClick={() => {
-												setcState(!cState);
+												// setcState(!cState);
 											}}
 											className="inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-green-50 bg-gray-800 hover:bg-gray-800  border-gray-600"
 										>
@@ -242,8 +267,14 @@ export default function Home() {
 									) : (
 										<button
 											type="button"
-											onClick={() => {
-												setcState(!cState);
+											onClick={async () => {
+												const result = await ApiConnection(cookies['api-url'])
+												if (result) {
+													setcState(true)
+												} else {
+													setcState(false)
+												}
+
 											}}
 											className="inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-red-500 bg-gray-800 hover:bg-gray-800  border-red-500"
 										>
@@ -291,7 +322,7 @@ export default function Home() {
 					<div className="py-6">
 						<div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
 							{/* Replace with your content */}
-							<Content category={homeCategory} />
+							<Content data={{'Category':homeCategory,'callback': urlIsSet}} />
 							{/* /End replace */}
 						</div>
 					</div>
