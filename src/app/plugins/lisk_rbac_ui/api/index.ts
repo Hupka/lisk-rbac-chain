@@ -1,32 +1,34 @@
 /* eslint-disable arrow-body-style */
+/* eslint-disable  */
+
 import { RBACPermissionRecord, RBACRoleRecord } from "lisk-rbac/dist/schemas";
 
-export const getRole = async (roleId: string): Promise<RBACRoleRecord> => {
-  const result = await fetch(`http://localhost:4000/rbac/roles/${roleId}/?fields=full`)
+export const getRole = async (roleId: string, url:string): Promise<RBACRoleRecord> => {
+  const result = await fetch(url + `/rbac/roles/${roleId}/?fields=full`)
 
   const body: RBACRoleRecord = await result.json() as RBACRoleRecord;
 
   return body;
 }
 
-export const getRoles = async (): Promise<RBACRoleRecord[]> => {
-  const result = await fetch(`http://localhost:4000/rbac/roles?fields=full`)
+export const getRoles = async (url: string): Promise<RBACRoleRecord[]> => {
+  const result = await fetch(url + `/rbac/roles?fields=full`)
 
   const body: RBACRoleRecord[] = await result.json() as RBACRoleRecord[];
 
   return body;
 }
 
-export const getRolePermissions = async (roleId: string): Promise<RBACPermissionRecord[]> => {
-  const result = await fetch(`http://localhost:4000/rbac/roles/${roleId}/permissions?fields=full`)
+export const getRolePermissions = async (roleId: string, url:string): Promise<RBACPermissionRecord[]> => {
+  const result = await fetch(url + `/rbac/roles/${roleId}/permissions?fields=full`)
 
   const body: RBACPermissionRecord[] = await result.json() as RBACPermissionRecord[];
 
   return body;
 }
 
-export const getRoleAccounts = async (roleId: string): Promise<[{ address: string }]> => {
-  const result = await fetch(`http://localhost:4000/rbac/roles/${roleId}/accounts`)
+export const getRoleAccounts = async (roleId: string, url: string): Promise<[{ address: string }]> => {
+  const result = await fetch(url + `/rbac/roles/${roleId}/accounts`)
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const body: [{ address: string }] = await result.json();
@@ -34,8 +36,8 @@ export const getRoleAccounts = async (roleId: string): Promise<[{ address: strin
   return body;
 }
 
-export const getAccountsRoles = async (address: string): Promise<RBACRoleRecord[]> => {
-  const result = await fetch(`http://localhost:4000/rbac/accounts/${address}/roles`)
+export const getAccountsRoles = async (address: string, url:string): Promise<RBACRoleRecord[]> => {
+  const result = await fetch(url + `/rbac/accounts/${address}/roles`)
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const body: RBACRoleRecord[] = await result.json() as RBACRoleRecord[];
@@ -43,16 +45,16 @@ export const getAccountsRoles = async (address: string): Promise<RBACRoleRecord[
   return body;
 }
 
-export const getAccountPermissions = async (address: string): Promise<RBACPermissionRecord[]> => {
-  const result = await fetch(`http://localhost:4000/rbac/accounts/${address}/permissions?fields=full`)
+export const getAccountPermissions = async (address: string, url:string): Promise<RBACPermissionRecord[]> => {
+  const result = await fetch(url + `/rbac/accounts/${address}/permissions?fields=full`)
 
   const body: RBACPermissionRecord[] = await result.json() as RBACPermissionRecord[];
 
   return body;
 }
 
-export const hasPermission = async (address: string, resource: string, operation: string): Promise<boolean> => {
-  const result = await fetch(`http://localhost:4000/rbac/accounts/${address}/hasPermission`, {
+export const hasPermission = async (address: string, resource: string, operation: string, url:string): Promise<boolean> => {
+  const result = await fetch(url + `/rbac/accounts/${address}/hasPermission`, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

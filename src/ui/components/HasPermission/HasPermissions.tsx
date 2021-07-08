@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { hasPermission } from '../../../app/plugins/lisk_rbac_ui/api';
 import { ModalHasPermissionResult } from '../Modals/ModalHasPermissionResult';
+import { useCookies } from 'react-cookie';
 
 export const HasPermissions = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -10,6 +11,7 @@ export const HasPermissions = () => {
 	const [address, setAddress] = useState('086baf263127a7fdf23439aa55265611105eed2d');
 	const [resource, setResource] = useState('role_membership');
 	const [operation, setOperation] = useState('assign');
+	const [cookies] = useCookies()
 
 	function closeModal() {
 		setShowModal(false);
@@ -31,7 +33,8 @@ export const HasPermissions = () => {
 	}
 
 	const hasPermissionsHandler = async () => {
-		const result: boolean = await hasPermission(address, resource, operation);
+
+		const result: boolean = await hasPermission(address, resource, operation, cookies['api-url'] ? cookies['api-url'] : 'http://localhost:4000');
 
 		setHasPermissionsModal(result);
 		setShowModal(true);

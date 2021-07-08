@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable no-console */
 import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { reducerAccountsList } from '../../logic/reducerRoles';
 import { AccountRolesContent, HeaderContent } from '../../models';
 import { AccountCard } from '../AccountCard/AccountCard';
@@ -12,6 +13,7 @@ export const AccountsCard = () => {
 	// fetch
 	const [loading, setLoading] = useState(true);
 	const [content, setContent] = useState<AccountRolesContent>({} as AccountRolesContent);
+	const [cookies] = useCookies()
 
 	const [roleCardId, setRoleCardId] = useState('0');
 	const [displayRoleCard, setDisplayRoleCard] = useState(false);
@@ -26,7 +28,7 @@ export const AccountsCard = () => {
 
 	useEffect(() => {
 		async function fetchContent() {
-			const fetchedContent = await reducerAccountsList();
+			const fetchedContent = await reducerAccountsList(cookies['api-url'] ? cookies['api-url'] : 'http://localhost:4000' );
 			setContent(fetchedContent);
 			setLoading(false);
 		}

@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 
 import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { reducerAccountContent } from '../../logic';
 import { AccountContent, HeaderContent } from '../../models';
 import { PermissionsTable } from '../RoleCard/PermissionsTable';
@@ -11,10 +12,11 @@ import { CardHeader } from '../UI/CardHeader';
 export const AccountCard: React.FC<{ address: string }> = props => {
 	// fetch
 	const [content, setContent] = useState<AccountContent>();
+	const [cookies] = useCookies()
 	// const content: RowContent[] = [];
 	useEffect(() => {
 		async function fetchContent() {
-			const fetchedContent = await reducerAccountContent(props.address);
+			const fetchedContent = await reducerAccountContent(props.address, cookies['api-url'] ? cookies['api-url']: 'http://localhost:4000' );
 			setContent(fetchedContent);
 		}
 		fetchContent();

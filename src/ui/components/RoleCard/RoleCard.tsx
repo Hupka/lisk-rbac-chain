@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable arrow-body-style */
 import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { reducerRole } from '../../logic';
 import { HeaderContent, RoleContent } from '../../models';
 import { Card } from '../UI/Card';
@@ -10,11 +11,12 @@ import { PermissionsTable } from './PermissionsTable';
 
 export const RoleCard: React.FC<{ roleId: string }> = props => {
 	// fetch
+	const [cookies] = useCookies()
 	const [content, setContent] = useState<RoleContent>();
 	// const content: RowContent[] = [];
 	useEffect(() => {
 		async function fetchContent() {
-			const fetchedContent = await reducerRole(props.roleId);
+			const fetchedContent = await reducerRole(props.roleId, cookies['api-url'] ? cookies['api-url']: 'http://localhost:4000' );
 			setContent(fetchedContent);
 		}
 		fetchContent();
