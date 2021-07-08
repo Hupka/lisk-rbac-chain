@@ -61,7 +61,6 @@ export default function Home() {
 		setIntervalState(true)
 		setInterval(async () => {
 			const result = await ApiConnection(cookies['api-url'])
-			console.log(result)
 			if (result) {
 				setcState(true)
 			} else {

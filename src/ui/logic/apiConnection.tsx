@@ -3,9 +3,7 @@ export const ApiConnection = async(url:String):Promise<Boolean> => {
    
         try{
             const result = await fetch(url +  `/rbac/roles`)
-            console.log(url)
             if (result.status === 200) {
-                console.log(result.status)
                return true
             }
             else{
