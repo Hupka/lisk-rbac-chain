@@ -27,6 +27,7 @@ import {
 	MenuAlt2Icon,
 	UsersIcon,
 	KeyIcon,
+	AdjustmentsIcon,
 	XIcon,
 } from '@heroicons/react/outline';
 import { useCookies } from 'react-cookie';
@@ -41,6 +42,7 @@ const navigation = [
 	{ name: 'Roles', href: '#', icon: AcademicCapIcon, current: false },
 	{ name: 'Accounts', href: '#', icon: UsersIcon, current: false },
 	{ name: 'Permission Check', href: '#', icon: KeyIcon, current: false },
+	{ name: 'Configure Policies', href: '#', icon: AdjustmentsIcon, current: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -116,22 +118,31 @@ export default function Home() {
 			}
 		}
 	};
-	function singOut(){
-		// no unused vars... 
-		if(false){
-			setCookies('msg','help')
+	function singOut() {
+		// no unused vars...
+		if (false) {
+			setCookies('msg', 'help');
 		}
-		removeCookie('passphrase')
+		removeCookie('passphrase');
 	}
 	useEffect(() => {
 		if (cookies.passphrase) {
-			setLoginState(true)
-
+			setLoginState(true);
 		} else {
-			setLoginState(false)
+			setLoginState(false);
 		}
-	}, [cookies.passphrase])
+	}, [cookies.passphrase]);
 
+	const openConfigurePoliciesPanel = () => {
+		setHomeCategory('configurePolicies');
+		for (const item of navigation) {
+			if (item.name === 'Configure Policies') {
+				item.current = true;
+			} else {
+				item.current = false;
+			}
+		}
+	};
 
 	return (
 		<div className="h-screen flex overflow-hidden bg-gray-200">
@@ -199,10 +210,12 @@ export default function Home() {
 												item.name === 'Dashboard'
 													? openDashboardPanel
 													: item.name === 'Accounts'
-														? openAccountsPanel
-														: item.name === 'Permission Check'
-															? openHasPermissionsPanel
-															: openRolesPanel
+													? openAccountsPanel
+													: item.name === 'Permission Check'
+													? openHasPermissionsPanel
+													: item.name === 'Configure Policies'
+													? openConfigurePoliciesPanel
+													: openRolesPanel
 											}
 											key={item.name}
 											href={item.href}
@@ -256,10 +269,12 @@ export default function Home() {
 											item.name === 'Dashboard'
 												? openDashboardPanel
 												: item.name === 'Accounts'
-													? openAccountsPanel
-													: item.name === 'Permission Check'
-														? openHasPermissionsPanel
-														: openRolesPanel
+												? openAccountsPanel
+												: item.name === 'Permission Check'
+												? openHasPermissionsPanel
+												: item.name === 'Configure Policies'
+												? openConfigurePoliciesPanel
+												: openRolesPanel
 										}
 										key={item.name}
 										href={item.href}
@@ -295,7 +310,7 @@ export default function Home() {
 										>
 											Connection established
 											<img
-												className="h-4 w-auto ml-2 -mr-1 h-5 w-5"
+												className="w-auto ml-2 -mr-1 h-5"
 												// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 												src={`${process.env.PUBLIC_URL}assets/ic_pair_124px.svg`}
 												alt="Workflow"
@@ -319,7 +334,7 @@ export default function Home() {
 										>
 											No connection
 											<img
-												className="w-auto ml-2 -mr-1 h-5 w-5"
+												className="w-auto ml-2 -mr-1 h-5"
 												// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 												src={`${process.env.PUBLIC_URL}assets/ic_unpair1_24px.svg`}
 												alt="Workflow"

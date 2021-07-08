@@ -11,7 +11,7 @@ export const HasPermissions = () => {
 	const [address, setAddress] = useState('086baf263127a7fdf23439aa55265611105eed2d');
 	const [resource, setResource] = useState('role_membership');
 	const [operation, setOperation] = useState('assign');
-	const [cookies] = useCookies()
+	const [cookies] = useCookies();
 
 	function closeModal() {
 		setShowModal(false);
@@ -33,8 +33,12 @@ export const HasPermissions = () => {
 	}
 
 	const hasPermissionsHandler = async () => {
-
-		const result: boolean = await hasPermission(address, resource, operation, cookies['api-url'] ? cookies['api-url'] : 'http://localhost:4000');
+		const result: boolean = await hasPermission(
+			address,
+			resource,
+			operation,
+			cookies['api-url'] ? cookies['api-url'] : 'http://localhost:4000',
+		);
 
 		setHasPermissionsModal(result);
 		setShowModal(true);
@@ -47,13 +51,13 @@ export const HasPermissions = () => {
 					<p className="text-2xl font-bold pb-5">Validate Account Permissions</p>
 					<p className="text-sm">
 						The module exposes an Action API{' '}
-						<span className="font-mono text-yellow-500">rbac:hasPermission</span> to check if an
+						<span className="font-mono text-indigo-500">rbac:hasPermission</span> to check if an
 						account can perform a certain operation on a given resource.
 					</p>
 					<p className="text-sm pt-4">
-						Enter <span className="font-mono text-yellow-500">address</span> as a HEX string. The
-						fields <span className="font-mono text-yellow-500">resource</span> and{' '}
-						<span className="font-mono text-yellow-500">operation</span> can take any string and the
+						Enter <span className="font-mono text-indigo-500">address</span> as a HEX string. The
+						fields <span className="font-mono text-indigo-500">resource</span> and{' '}
+						<span className="font-mono text-indigo-500">operation</span> can take any string and the
 						solver will validate if any of the account's roles has been granted these permissions.
 					</p>
 				</div>
