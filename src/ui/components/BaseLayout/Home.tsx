@@ -22,14 +22,14 @@
 import { Dialog, Transition } from '@headlessui/react';
 import {
 	AcademicCapIcon,
-	BellIcon,
 	HomeIcon,
 	MenuAlt2Icon,
 	UsersIcon,
 	XIcon,
 } from '@heroicons/react/outline';
-import { Fragment, useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { Fragment, useState } from 'react';
+import { ProfileDropdown } from '../Profile/ProfileDropdown';
 import Breadcrumbs from './Breadcrumbs';
 import { Content } from './Content';
 import { ApiConnection } from '../../logic/apiConnection';
@@ -47,7 +47,8 @@ function classNames(...classes: string[]) {
 export default function Home() {
 	const [homeOpen, setHomeOpen] = useState(false);
 	const [homeCategory, setHomeCategory] = useState('dashboard');
-	const [cookies] = useCookies(['cookie-name']);
+	const [cookies] = useCookies(['api-url']);
+	const [loginState] = useState(true);
 	// logic need to be added here
 	const [cState, setcState] = useState(false);
 
@@ -308,10 +309,13 @@ export default function Home() {
 					</button>
 					<div className="flex-1 px-4 flex justify-between">
 						<div className="flex-1 flex"></div>
+
 						<div className="ml-4 flex items-center md:ml-6">
 							<button className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500">
 								<span className="sr-only">View notifications</span>
-								<BellIcon className="h-6 w-6" aria-hidden="true" />
+								<span className="h-6 w-6">
+									<ProfileDropdown signedIn={loginState} />
+								</span>
 							</button>
 						</div>
 					</div>
