@@ -18,7 +18,7 @@
 */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
- 
+
 import { Dialog, Transition } from '@headlessui/react';
 import {
 	AcademicCapIcon,
@@ -49,11 +49,16 @@ export default function Home() {
 	const [homeCategory, setHomeCategory] = useState('dashboard');
 	const [cookies] = useCookies(['api-url']);
 	const [loginState] = useState(true);
+	const [intervalState, setIntervalState] = useState(false)
+
+	// refresh interval
+	const rInterval = 10000;
 	// logic need to be added here
 	const [cState, setcState] = useState(false);
 
-    function urlIsSet(){
-		setcState(true)
+	
+	function intervalRefresh(time){
+		setIntervalState(true)
 		setInterval(async () => {
 			const result = await ApiConnection(cookies['api-url'])
 			console.log(result)
@@ -62,8 +67,12 @@ export default function Home() {
 			} else {
 				setcState(false)
 			}
-			
-		}, 10000);
+
+		}, time);
+	}
+	function urlIsSet() {
+		setcState(true); 
+		intervalRefresh(rInterval);
 	}
 
 	const openDashboardPanel = () => {
@@ -98,7 +107,7 @@ export default function Home() {
 		}
 	};
 
-	
+
 
 
 	return (
@@ -271,6 +280,9 @@ export default function Home() {
 											onClick={async () => {
 												const result = await ApiConnection(cookies['api-url'])
 												if (result) {
+													if (!intervalState) {
+														intervalRefresh(rInterval);
+													}
 													setcState(true)
 												} else {
 													setcState(false)
@@ -326,7 +338,7 @@ export default function Home() {
 					<div className="py-6">
 						<div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
 							{/* Replace with your content */}
-							<Content data={{'Category':homeCategory,'callback': urlIsSet}} />
+							<Content data={{ 'Category': homeCategory, 'callback': urlIsSet }} />
 							{/* /End replace */}
 						</div>
 					</div>
