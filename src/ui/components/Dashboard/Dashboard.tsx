@@ -1,8 +1,7 @@
-
 import { useCookies } from 'react-cookie';
-import { Transition } from '@headlessui/react'
-import { ExclamationIcon } from '@heroicons/react/outline'
-import { XIcon } from '@heroicons/react/solid'
+import { Transition } from '@headlessui/react';
+import { ExclamationIcon } from '@heroicons/react/outline';
+import { XIcon } from '@heroicons/react/solid';
 import { useState, Fragment } from 'react';
 
 /* eslint-disable  */
@@ -10,21 +9,21 @@ import { useState, Fragment } from 'react';
 export const Dashboard: React.FC<{ callback: () => void }> = props => {
 	const [setupState, setSetupState] = useState(false);
 	const [tryConnect, setTryConnect] = useState(false);
-	const [show, setShow] = useState(false)
+	const [show, setShow] = useState(false);
 	const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
-	let defaultUrl = 'http://localhost:4000'
+	let defaultUrl = 'http://localhost:4000';
 	// set url if available
 	if (cookies['api-url']) {
-		defaultUrl = cookies['api-url']
+		defaultUrl = cookies['api-url'];
 	}
-	const [url, setUrl] = useState(defaultUrl)
+	const [url, setUrl] = useState(defaultUrl);
 
 	function handleUrlFieldChange(event) {
 		// set all loading states an alerts to false
-		setSetupState(false)
-		setShow(false)
-		setTryConnect(false)
-		// 
+		setSetupState(false);
+		setShow(false);
+		setTryConnect(false);
+		//
 
 		event.preventDefault();
 		setUrl(event.target.value);
@@ -47,7 +46,7 @@ export const Dashboard: React.FC<{ callback: () => void }> = props => {
 						id="connected"
 						className="py-2 px-3 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-solid border-gray-300 rounded-md"
 						placeholder="http://localhost:4000"
-						onChange={(e) => handleUrlFieldChange(e)}
+						onChange={e => handleUrlFieldChange(e)}
 						value={url}
 					/>
 				</div>
@@ -58,24 +57,23 @@ export const Dashboard: React.FC<{ callback: () => void }> = props => {
 						setTryConnect(true);
 						// try to call
 						try {
-							const result = await fetch(url + `/rbac/roles`)
+							const result = await fetch(url + `/rbac/roles`);
 							if (result.status === 200) {
 								// firest remove Cookie
-								removeCookie('api-url')
+								removeCookie('api-url');
 								// set new Cookie
-								setCookie('api-url', url)
+								setCookie('api-url', url);
 								// change button color
-								setTryConnect(false)
+								setTryConnect(false);
 								setSetupState(true);
-								props.callback()
-							}
-							else {
+								props.callback();
+							} else {
 								// TODO:catch more errors
-								setShow(true)
+								setShow(true);
 							}
 						} catch (err) {
-							// user maybe mixed up url, so that fetch would crash --> could be done cleaner 
-							setShow(true)
+							// user maybe mixed up url, so that fetch would crash --> could be done cleaner
+							setShow(true);
 						}
 					}}
 					// maybe not the best way to do it, but shortens code
@@ -85,7 +83,6 @@ export const Dashboard: React.FC<{ callback: () => void }> = props => {
 					}
 				>
 					{!setupState ? 'Connect' : 'Connected'}
-
 				</button>
 				<div
 					aria-live="assertive"
@@ -118,7 +115,7 @@ export const Dashboard: React.FC<{ callback: () => void }> = props => {
 												type="button"
 												className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 												onClick={() => {
-													setShow(false)
+													setShow(false);
 												}}
 											>
 												<span className="sr-only">Close</span>
@@ -133,5 +130,5 @@ export const Dashboard: React.FC<{ callback: () => void }> = props => {
 				</div>
 			</form>
 		</div>
-	)
+	);
 };

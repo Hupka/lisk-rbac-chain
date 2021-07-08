@@ -2,7 +2,6 @@
 /* eslint-disbale @typescript-eslint/no-unsafe-call */
 import { Menu } from '@headlessui/react';
 
-
 function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
 }
@@ -14,6 +13,12 @@ export const ProfileDropdownItems: React.FC<{
 	}[];
 	clickedEl: (el: { name: string; href: string }) => void;
 }> = props => {
+	// const [modalPassphrase, setModalPassphrase] = useState(false);
+
+	// const openModalPassphrase = () => {
+	// 	setModalPassphrase(true);
+	// };
+
 	return (
 		<>
 			{props.selection.map(item => (
@@ -26,25 +31,14 @@ export const ProfileDropdownItems: React.FC<{
 								'block px-4 py-2 text-sm text-gray-700 text-left',
 							)}
 							onClick={() => {
-								props.clickedEl(item)
+								props.clickedEl(item);
 							}}
 						>
 							{item.name}
-
 						</a>
 					)}
-
 				</Menu.Item>
 			))}
-
-
-
-
-
 		</>
-
-
-
-
 	);
 };
