@@ -19,12 +19,8 @@ export const ProfileDropdown: React.FC<{ signedIn: boolean; signOut: () => void 
 	const [showModal, setShowModal] = useState(false);
 	function clickEvent(el: { name: string; href: string }) {
 		console.log('received el:', el)
-		if (el.name === 'Profile') {
+		if (el.name === 'Profile' || el.name === 'Sign in') {
 			setShowModal(true);
-		}
-		if(el.name === 'Sign in'){
-
-			setShowModal(true)
 		}
 		if(el.name === 'Sign out'){
 
