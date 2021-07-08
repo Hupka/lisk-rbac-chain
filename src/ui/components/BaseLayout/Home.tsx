@@ -18,6 +18,7 @@
 */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable no-constant-condition */
 
 import { Dialog, Transition } from '@headlessui/react';
 import {
@@ -29,7 +30,7 @@ import {
 	XIcon,
 } from '@heroicons/react/outline';
 import { useCookies } from 'react-cookie';
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { ProfileDropdown } from '../Profile/ProfileDropdown';
 import Breadcrumbs from './Breadcrumbs';
 import { Content } from './Content';
@@ -49,8 +50,8 @@ function classNames(...classes: string[]) {
 export default function Home() {
 	const [homeOpen, setHomeOpen] = useState(false);
 	const [homeCategory, setHomeCategory] = useState('dashboard');
-	const [cookies] = useCookies(['api-url']);
-	const [loginState] = useState(true);
+	const [cookies, setCookies, removeCookie] = useCookies();
+	const [loginState, setLoginState] = useState(true);
 	const [intervalState, setIntervalState] = useState(false);
 
 	// refresh interval
@@ -115,6 +116,22 @@ export default function Home() {
 			}
 		}
 	};
+	function singOut(){
+		// no unused vars... 
+		if(false){
+			setCookies('msg','help')
+		}
+		removeCookie('passphrase')
+	}
+	useEffect(() => {
+		if (cookies.passphrase) {
+			setLoginState(true)
+
+		} else {
+			setLoginState(false)
+		}
+	}, [cookies.passphrase])
+
 
 	return (
 		<div className="h-screen flex overflow-hidden bg-gray-200">
@@ -182,10 +199,10 @@ export default function Home() {
 												item.name === 'Dashboard'
 													? openDashboardPanel
 													: item.name === 'Accounts'
-													? openAccountsPanel
-													: item.name === 'Permission Check'
-													? openHasPermissionsPanel
-													: openRolesPanel
+														? openAccountsPanel
+														: item.name === 'Permission Check'
+															? openHasPermissionsPanel
+															: openRolesPanel
 											}
 											key={item.name}
 											href={item.href}
@@ -239,10 +256,10 @@ export default function Home() {
 											item.name === 'Dashboard'
 												? openDashboardPanel
 												: item.name === 'Accounts'
-												? openAccountsPanel
-												: item.name === 'Permission Check'
-												? openHasPermissionsPanel
-												: openRolesPanel
+													? openAccountsPanel
+													: item.name === 'Permission Check'
+														? openHasPermissionsPanel
+														: openRolesPanel
 										}
 										key={item.name}
 										href={item.href}
@@ -335,7 +352,7 @@ export default function Home() {
 							<button className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500">
 								<span className="sr-only">View notifications</span>
 								<span className="h-6 w-6">
-									<ProfileDropdown signedIn={loginState} />
+									<ProfileDropdown signedIn={loginState} signOut={singOut} />
 								</span>
 							</button>
 						</div>

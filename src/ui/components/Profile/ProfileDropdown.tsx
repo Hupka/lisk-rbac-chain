@@ -15,12 +15,20 @@ const userNavigationOnline = [
 
 const userNavigationOffline = [{ name: 'Sign in', href: '#' }];
 
-export const ProfileDropdown: React.FC<{ signedIn: boolean }> = props => {
+export const ProfileDropdown: React.FC<{ signedIn: boolean; signOut: () => void }> = props => {
 	const [showModal, setShowModal] = useState(false);
-
 	function clickEvent(el: { name: string; href: string }) {
+		console.log('received el:', el)
 		if (el.name === 'Profile') {
 			setShowModal(true);
+		}
+		if(el.name === 'Sign in'){
+
+			setShowModal(true)
+		}
+		if(el.name === 'Sign out'){
+
+			props.signOut()
 		}
 	}
 	function closeModal() {

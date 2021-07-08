@@ -1,6 +1,6 @@
 import { Menu } from '@headlessui/react';
-
 /* eslint-disable arrow-body-style */
+
 export const ProfileIcon: React.FC<{ signedIn: boolean }> = props => {
 	return (
 		<>
