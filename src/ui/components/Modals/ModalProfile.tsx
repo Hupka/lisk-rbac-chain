@@ -1,9 +1,10 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-// import { CheckIcon } from '@heroicons/react/outline'
 
 export const ModalProfile: React.FC<{ closeModal: () => void }> = props => {
+	
 	const [open, setOpen] = useState(true);
+	
 	return (
 		<Transition.Root show={open} as={Fragment}>
 			<Dialog
@@ -11,7 +12,10 @@ export const ModalProfile: React.FC<{ closeModal: () => void }> = props => {
 				static
 				className="fixed z-30 inset-0 overflow-y-auto"
 				open={open}
-				onClose={setOpen}
+				onClose={()=>{
+					setOpen(false)
+					props.closeModal();
+				}}
 			>
 				<div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
 					<Transition.Child

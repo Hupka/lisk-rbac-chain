@@ -27,6 +27,8 @@ export const ProfileDropdown: React.FC<{ signedIn: boolean }> = props => {
 	function closeModal() {
 		setShowModal(false);
 	}
+	
+
 	return (
 		<Menu as="div" className="ml-4 relative flex-shrink-0">
 			{({ open }) => (
