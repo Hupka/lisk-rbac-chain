@@ -25,6 +25,7 @@ import {
 	HomeIcon,
 	MenuAlt2Icon,
 	UsersIcon,
+	KeyIcon,
 	XIcon,
 } from '@heroicons/react/outline';
 import { useCookies } from 'react-cookie';
@@ -38,7 +39,7 @@ const navigation = [
 	{ name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
 	{ name: 'Roles', href: '#', icon: AcademicCapIcon, current: false },
 	{ name: 'Accounts', href: '#', icon: UsersIcon, current: false },
-	{ name: 'Permission Check', href: '#', icon: UsersIcon, current: false },
+	{ name: 'Permission Check', href: '#', icon: KeyIcon, current: false },
 ];
 
 function classNames(...classes: string[]) {
