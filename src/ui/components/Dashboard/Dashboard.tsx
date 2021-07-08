@@ -10,7 +10,7 @@ export const Dashboard: React.FC<{ callback: () => void }> = props => {
 	const [setupState, setSetupState] = useState(false);
 	const [tryConnect, setTryConnect] = useState(false);
 	const [show, setShow] = useState(false);
-	const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
+	const [cookies, setCookie, removeCookie] = useCookies();
 	let defaultUrl = 'http://localhost:4000';
 	// set url if available
 	if (cookies['api-url']) {

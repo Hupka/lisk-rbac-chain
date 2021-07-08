@@ -1,9 +1,20 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { useCookies } from 'react-cookie';
+
+/* eslint-disable  */
 
 export const ModalProfile: React.FC<{ closeModal: () => void }> = props => {
 	const [open, setOpen] = useState(true);
-
+	const [cookies, setCookie] = useCookies();
+	const [passphrase, setPassphrase] = useState(cookies['passphrase'] ? cookies['passphrase']:'')
+	function handlePassphraseFieldChange(event) {
+		// set all loading states an alerts to false
+		
+		event.preventDefault();
+		setPassphrase(event.target.value);
+	}
+	
 	return (
 		<Transition.Root show={open} as={Fragment}>
 			<Dialog
@@ -54,12 +65,14 @@ export const ModalProfile: React.FC<{ closeModal: () => void }> = props => {
 											transactions.
 										</p>
 										<form className="space-y-8 divide-y divide-gray-200 mt-4 text-sm text-gray-500">
-											<div className="mt-1 sm:mt-0 sm:col-span-2 ">
+											<div className="mt-1 sm:mt-0 sm:col-span-2">
 												<textarea
 													id="about"
 													name="about"
 													rows={3}
-													className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+													value={passphrase}
+													onChange={e => handlePassphraseFieldChange(e)}
+													className="p-1 max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
 												/>
 											</div>
 										</form>
@@ -71,11 +84,15 @@ export const ModalProfile: React.FC<{ closeModal: () => void }> = props => {
 									type="button"
 									className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
 									onClick={() => {
+
+										setCookie('passphrase',passphrase)
 										setOpen(false);
+
+									
 										props.closeModal();
 									}}
 								>
-									Login
+									Save
 								</button>
 							</div>
 						</div>
