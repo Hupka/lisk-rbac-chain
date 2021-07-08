@@ -19,7 +19,6 @@ export const ProfileDropdown: React.FC<{ signedIn: boolean }> = props => {
 	const [showModal, setShowModal] = useState(false);
 
 	function clickEvent(el: { name: string; href: string }) {
-		console.log('clicked El: ', el);
 		if (el.name === 'Profile') {
 			setShowModal(true);
 		}
@@ -27,7 +26,6 @@ export const ProfileDropdown: React.FC<{ signedIn: boolean }> = props => {
 	function closeModal() {
 		setShowModal(false);
 	}
-	
 
 	return (
 		<Menu as="div" className="ml-4 relative flex-shrink-0">

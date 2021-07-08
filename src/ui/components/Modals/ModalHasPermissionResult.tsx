@@ -1,7 +1,16 @@
+/* eslint-disable no-nested-ternary */
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { CheckIcon, BanIcon, VariableIcon } from '@heroicons/react/outline';
 
-export const ModalProfile: React.FC<{ closeModal: () => void }> = props => {
+export const ModalHasPermissionResult: React.FC<{
+	result: string;
+	type: string;
+	operation: string;
+	resource: string;
+	address: string;
+	closeModal: () => void;
+}> = props => {
 	const [open, setOpen] = useState(true);
 
 	return (
@@ -44,29 +53,29 @@ export const ModalProfile: React.FC<{ closeModal: () => void }> = props => {
 					>
 						<div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
 							<div>
+								{props.type === 'success' ? (
+									<div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+										<CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+									</div>
+								) : props.type === 'fail' ? (
+									<div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+										<BanIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+									</div>
+								) : (
+									<div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100">
+										<VariableIcon className="h-6 w-6 text-yellow-600" aria-hidden="true" />
+									</div>
+								)}
 								<div className="mt-3 text-center sm:mt-5">
 									<Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-										Enter Passphrase
+										{props.result}
 									</Dialog.Title>
-									<div className="mt-2">
-										<p className="text-sm text-gray-500">
-											When logged in the passphrase is stored in the browser only and used to sign
-											transactions.
-										</p>
-										<form className="space-y-8 divide-y divide-gray-200 mt-4 text-sm text-gray-500">
-											<div className="mt-1 sm:mt-0 sm:col-span-2 ">
-												<textarea
-													id="about"
-													name="about"
-													rows={3}
-													className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-												/>
-											</div>
-										</form>
-									</div>
 								</div>
 							</div>
-							<div className="mt-5 sm:mt-6">
+							<div className="flex flex-col py-2 mt-3 bg-gray-100 items-center">
+								<p className="font-mono">{[props.resource, props.operation].join(':')}</p>
+							</div>
+							<div className="mt-4 sm:mt-4">
 								<button
 									type="button"
 									className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
@@ -75,7 +84,7 @@ export const ModalProfile: React.FC<{ closeModal: () => void }> = props => {
 										props.closeModal();
 									}}
 								>
-									Login
+									Close
 								</button>
 							</div>
 						</div>
