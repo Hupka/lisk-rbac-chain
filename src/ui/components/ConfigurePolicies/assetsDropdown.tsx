@@ -51,19 +51,21 @@ function classNames(...classes) {
 	return classes.filter(Boolean).join(' ');
 }
 
-export const AssetsDropdown: React.FC<{ setExample: (example: string) => void }> = props => {
+export const AssetsDropdown: React.FC<{
+	setExample: (assetName: string, example: string) => void;
+}> = props => {
 	const [selected, setSelected] = useState(assets[0]);
 
 	const onChangeHandler = event => {
 		setSelected(event);
 		const example = assets.find(x => x.name === event.name);
 		if (example) {
-			props.setExample(JSON.stringify(example.example, null, 2));
+			props.setExample(selected.transactionString, JSON.stringify(example.example, null, 2));
 		}
 	};
 
 	useEffect(() => {
-		props.setExample(JSON.stringify(assets[0].example, null, 2));
+		props.setExample(selected.transactionString, JSON.stringify(assets[0].example, null, 2));
 	}, []);
 
 	return (

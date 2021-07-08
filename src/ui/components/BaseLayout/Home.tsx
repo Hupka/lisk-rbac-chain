@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable  @typescript-eslint/no-misused-promises */
 /*
@@ -23,26 +24,25 @@
 import { Dialog, Transition } from '@headlessui/react';
 import {
 	AcademicCapIcon,
+	AdjustmentsIcon,
 	HomeIcon,
+	KeyIcon,
 	MenuAlt2Icon,
 	UsersIcon,
-	KeyIcon,
-	AdjustmentsIcon,
 	XIcon,
 } from '@heroicons/react/outline';
+import { Fragment, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { Fragment, useState, useEffect } from 'react';
-import { ProfileDropdown } from '../Profile/ProfileDropdown';
-import Breadcrumbs from './Breadcrumbs';
-import { Content } from './Content';
 import { ApiConnection } from '../../logic/apiConnection';
+import { ProfileDropdown } from '../Profile/ProfileDropdown';
+import { Content } from './Content';
 
 const navigation = [
-	{ name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-	{ name: 'Roles', href: '#', icon: AcademicCapIcon, current: false },
-	{ name: 'Accounts', href: '#', icon: UsersIcon, current: false },
-	{ name: 'Permission Check', href: '#', icon: KeyIcon, current: false },
-	{ name: 'Configure Policies', href: '#', icon: AdjustmentsIcon, current: false },
+	{ name: 'Dashboard', href: '#', icon: HomeIcon, current: true, active: true },
+	{ name: 'Roles', href: '#', icon: AcademicCapIcon, current: false, active: false },
+	{ name: 'Accounts', href: '#', icon: UsersIcon, current: false, active: false },
+	{ name: 'Permission Check', href: '#', icon: KeyIcon, current: false, active: false },
+	{ name: 'Configure Policies', href: '#', icon: AdjustmentsIcon, current: false, active: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -60,6 +60,13 @@ export default function Home() {
 	const rInterval = 10000;
 	// logic need to be added here
 	const [cState, setcState] = useState(false);
+
+	if (!cState) {
+		navigation[1].active = false;
+		navigation[2].active = false;
+		navigation[3].active = false;
+		navigation[4].active = false;
+	}
 
 	function intervalRefresh(time) {
 		setIntervalState(true);
@@ -210,12 +217,20 @@ export default function Home() {
 												item.name === 'Dashboard'
 													? openDashboardPanel
 													: item.name === 'Accounts'
-													? openAccountsPanel
+													? cState
+														? openAccountsPanel
+														: () => {}
 													: item.name === 'Permission Check'
-													? openHasPermissionsPanel
+													? cState
+														? openHasPermissionsPanel
+														: () => {}
 													: item.name === 'Configure Policies'
-													? openConfigurePoliciesPanel
-													: openRolesPanel
+													? cState
+														? openConfigurePoliciesPanel
+														: () => {}
+													: cState
+													? openRolesPanel
+													: () => {}
 											}
 											key={item.name}
 											href={item.href}
@@ -269,12 +284,20 @@ export default function Home() {
 											item.name === 'Dashboard'
 												? openDashboardPanel
 												: item.name === 'Accounts'
-												? openAccountsPanel
+												? cState
+													? openAccountsPanel
+													: () => {}
 												: item.name === 'Permission Check'
-												? openHasPermissionsPanel
+												? cState
+													? openHasPermissionsPanel
+													: () => {}
 												: item.name === 'Configure Policies'
-												? openConfigurePoliciesPanel
-												: openRolesPanel
+												? cState
+													? openConfigurePoliciesPanel
+													: () => {}
+												: cState
+												? openRolesPanel
+												: () => {}
 										}
 										key={item.name}
 										href={item.href}
@@ -351,8 +374,8 @@ export default function Home() {
 					</div>
 				</div>
 			</div>
-			<div className="flex flex-col w-0 flex-1 overflow-hidden">
-				<div className="relative z-10 flex-shrink-0 flex h-16 bg-white border-b">
+			<div className="flex flex-col w-0 flex-1 overflow-hidden ">
+				<div className="relative z-10 flex-shrink-0 flex h-16 bg-white border-b shadow">
 					<button
 						className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
 						onClick={() => setHomeOpen(true)}
@@ -373,7 +396,7 @@ export default function Home() {
 						</div>
 					</div>
 				</div>
-				<Breadcrumbs />
+				{/* <Breadcrumbs /> */}
 
 				<main className="flex-1 relative overflow-y-auto focus:outline-none">
 					<div className="py-6">

@@ -9,6 +9,7 @@
 
 import { cryptography, transactions, codec } from "lisk-sdk";
 import { objects } from '@liskhq/lisk-utils';
+import { fetchAccountInfo } from "../../app/plugins/lisk_rbac_ui/api";
 
 const baseAssetSchema = {
   $id: 'lisk/base-transaction',
@@ -49,13 +50,7 @@ const baseAssetSchema = {
   },
 };
 
-const fetchAccountInfo = async (address) => {
-  return fetch(`http://localhost:4000/api/accounts/${address}`)
-    .then((res) => res.json())
-    .then((res) => res.data);
-};
-
-const calcMinTxFee = (assetSchema, minFeePerByte, tx) => {
+const calcMinTxFee = (assetSchema, minFeePerByte: number, tx) => {
   const assetBytes = codec.encode(assetSchema, tx.asset);
   const bytes = codec.encode(baseAssetSchema, { ...tx, asset: assetBytes });
   return BigInt(bytes.length * minFeePerByte);
@@ -63,82 +58,43 @@ const calcMinTxFee = (assetSchema, minFeePerByte, tx) => {
 
 const getFullAssetSchema = (assetSchema): any => objects.mergeDeep({}, baseAssetSchema, { properties: { asset: assetSchema }, });
 
-export const generateTransaction = async ({
-  passphrase,
-  fee,
-  networkIdentifier,
-  minFeePerByte,
-  assetObject,
-  schema,
-}) => {
+export interface SendTransactionOptions {
+  moduleID: number;
+  assetID: number;
+  asset: Record<string, unknown>;
+  schema: any;
+  passphrase: string;
+  fee: string;
+  networkIdentifier: string;
+  minFeePerByte: number;
+}
+
+export const generateTransaction = async (options: SendTransactionOptions, url: string) => {
   const { publicKey } = cryptography.getPrivateAndPublicKeyFromPassphrase(
-    passphrase
+    options.passphrase
   );
-  const address = cryptography.getAddressFromPassphrase(passphrase);
+  const address = cryptography.getAddressFromPassphrase(options.passphrase);
   const {
     sequence: { nonce },
-  } = await fetchAccountInfo(address.toString("hex"));
+  } = await fetchAccountInfo(address.toString("hex"), url);
 
   const { id, ...rest } = transactions.signTransaction(
-    schema,
+    options.schema,
     {
       moduleID: 1024,
       assetID: 1,
       nonce: BigInt(nonce),
-      fee: BigInt(transactions.convertLSKToBeddows(fee)),
+      fee: BigInt(transactions.convertLSKToBeddows(options.fee.toString())),
       senderPublicKey: publicKey,
-      assetObject,
+      asset: options.asset,
     },
-    Buffer.from(networkIdentifier, "hex"),
-    passphrase
+    Buffer.from(options.networkIdentifier, "hex"),
+    options.passphrase
   );
 
   return {
     id: (id as any).toString("hex"),
-    tx: codec.toJSON(getFullAssetSchema(schema), rest),
-    minFee: calcMinTxFee(schema, minFeePerByte, rest),
+    tx: codec.toJSON(getFullAssetSchema(options.schema), rest),
+    minFee: calcMinTxFee(options.schema, options.minFeePerByte, rest),
   };
 };
-
-
-// Generate
-
-// export interface SendTransactionOptions {
-//   moduleID: number;
-//   assetID: number;
-//   asset: Record<string, unknown>;
-//   schema: any;
-//   passphrase: string;
-// }
-
-// const handleSendTransaction = async (data: SendTransactionOptions) => {
-//   try {
-//     const { publicKey, address } = cryptography.getAddressAndPublicKeyFromPassphrase(
-//       data.passphrase,
-//     );
-//     const assetSchema = data.schema;
-//     if (!assetSchema) {
-//       throw new Error(`ModuleID: ${data.moduleID} AssetID: ${data.assetID} is not registered`);
-//     }
-//     const assetObject = codec.fromJSON<Record<string, unknown>>(
-//       assetSchema.schema,
-//       data.asset,
-//     );
-//     const sender = await getClient().account.get(address);
-//     const fee = getClient().transaction.computeMinFee({
-//       moduleID: data.moduleID,
-//       assetID: data.assetID,
-//       asset: assetObject,
-//       senderPublicKey: publicKey,
-//       nonce: BigInt((sender.sequence as { nonce: bigint }).nonce),
-//     });
-//     const transaction = await getClient().transaction.create(
-//       {
-//         moduleID: data.moduleID,
-//         assetID: data.assetID,
-//         asset: assetObject,
-//         senderPublicKey: publicKey,
-//         fee,
-//       },
-//       data.passphrase,
-//     );

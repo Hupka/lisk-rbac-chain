@@ -123,7 +123,9 @@ export const HasPermissions = () => {
 					resource={resource}
 					operation={operation}
 					result={
-						hasPermissionsModal ? 'Account has permission' : 'Account does not have permission'
+						hasPermissionsModal
+							? 'Account is granted permission'
+							: 'Account does not have permission'
 					}
 					type={hasPermissionsModal ? 'success' : 'fail'}
 					closeModal={closeModal}

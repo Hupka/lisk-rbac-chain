@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"forceConsistentCasingInFileNames": true,
-		"lib": ["dom", "dom.iterable", "esnext"],
+		"lib": ["dom", "dom.iterable"],
 		"target": "es2019",
 		"module": "esnext",
 		"moduleResolution": "node",
