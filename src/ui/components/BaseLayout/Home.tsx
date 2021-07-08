@@ -38,6 +38,7 @@ const navigation = [
 	{ name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
 	{ name: 'Roles', href: '#', icon: AcademicCapIcon, current: false },
 	{ name: 'Accounts', href: '#', icon: UsersIcon, current: false },
+	{ name: 'Permission Check', href: '#', icon: UsersIcon, current: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -49,28 +50,26 @@ export default function Home() {
 	const [homeCategory, setHomeCategory] = useState('dashboard');
 	const [cookies] = useCookies(['api-url']);
 	const [loginState] = useState(true);
-	const [intervalState, setIntervalState] = useState(false)
+	const [intervalState, setIntervalState] = useState(false);
 
 	// refresh interval
 	const rInterval = 10000;
 	// logic need to be added here
 	const [cState, setcState] = useState(false);
 
-	
-	function intervalRefresh(time){
-		setIntervalState(true)
+	function intervalRefresh(time) {
+		setIntervalState(true);
 		setInterval(async () => {
-			const result = await ApiConnection(cookies['api-url'])
+			const result = await ApiConnection(cookies['api-url']);
 			if (result) {
-				setcState(true)
+				setcState(true);
 			} else {
-				setcState(false)
+				setcState(false);
 			}
-
 		}, time);
 	}
 	function urlIsSet() {
-		setcState(true); 
+		setcState(true);
 		intervalRefresh(rInterval);
 	}
 
@@ -105,9 +104,16 @@ export default function Home() {
 			}
 		}
 	};
-
-
-
+	const openHasPermissionsPanel = () => {
+		setHomeCategory('hasPermission');
+		for (const item of navigation) {
+			if (item.name === 'Permission Check') {
+				item.current = true;
+			} else {
+				item.current = false;
+			}
+		}
+	};
 
 	return (
 		<div className="h-screen flex overflow-hidden bg-gray-200">
@@ -172,11 +178,13 @@ export default function Home() {
 									{navigation.map(item => (
 										<a
 											onClick={
-												item.name === 'dashboard'
+												item.name === 'Dashboard'
 													? openDashboardPanel
-													: item.name === 'accounts'
-														? openAccountsPanel
-														: openRolesPanel
+													: item.name === 'Accounts'
+													? openAccountsPanel
+													: item.name === 'Permission Check'
+													? openHasPermissionsPanel
+													: openRolesPanel
 											}
 											key={item.name}
 											href={item.href}
@@ -230,8 +238,10 @@ export default function Home() {
 											item.name === 'Dashboard'
 												? openDashboardPanel
 												: item.name === 'Accounts'
-													? openAccountsPanel
-													: openRolesPanel
+												? openAccountsPanel
+												: item.name === 'Permission Check'
+												? openHasPermissionsPanel
+												: openRolesPanel
 										}
 										key={item.name}
 										href={item.href}
@@ -277,16 +287,15 @@ export default function Home() {
 										<button
 											type="button"
 											onClick={async () => {
-												const result = await ApiConnection(cookies['api-url'])
+												const result = await ApiConnection(cookies['api-url']);
 												if (result) {
 													if (!intervalState) {
 														intervalRefresh(rInterval);
 													}
-													setcState(true)
+													setcState(true);
 												} else {
-													setcState(false)
+													setcState(false);
 												}
-
 											}}
 											className="inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-red-500 bg-gray-800 hover:bg-gray-800  border-red-500"
 										>
@@ -337,7 +346,7 @@ export default function Home() {
 					<div className="py-6">
 						<div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
 							{/* Replace with your content */}
-							<Content data={{ 'Category': homeCategory, 'callback': urlIsSet }} />
+							<Content data={{ Category: homeCategory, callback: urlIsSet }} />
 							{/* /End replace */}
 						</div>
 					</div>

@@ -4,17 +4,18 @@
 
 import { AccountsCard } from '../Accounts/AccountsCard';
 import { Dashboard } from '../Dashboard/Dashboard';
+import { HasPermissions } from '../HasPermission/HasPermissions';
 import { RolesCard } from '../RolesCard/RolesCard';
 
-
-
-export const Content: React.FC<{ data: {Category: string,callback: () => void} }> = props => {
+export const Content: React.FC<{ data: { Category: string; callback: () => void } }> = props => {
 	switch (props.data.Category) {
 		case 'roles':
 			return <RolesCard />;
 		case 'accounts':
 			return <AccountsCard />;
+		case 'hasPermission':
+			return <HasPermissions />;
 		default:
-			return <Dashboard callback={props.data.callback}/>;
+			return <Dashboard callback={props.data.callback} />;
 	}
 };
