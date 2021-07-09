@@ -53,7 +53,7 @@ export const getAccountPermissions = async (address: string, url: string): Promi
   return body;
 }
 
-export const hasPermission = async (address: string, resource: string, operation: string, url: string): Promise<boolean> => {
+export const hasPermission = async (address: string, resource: string, operation: string, url: string): Promise<any> => {
   const result = await fetch(url + `/rbac/accounts/${address}/hasPermission`, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
@@ -70,9 +70,7 @@ export const hasPermission = async (address: string, resource: string, operation
     }) // body data type must match "Content-Type" header
   })
 
-  const body: boolean = await result.json() as boolean;
-
-  return body;
+  return await result.json();
 }
 
 export const fetchAccountInfo = async (address: string, url: string) => {

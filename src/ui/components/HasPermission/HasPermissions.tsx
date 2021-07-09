@@ -33,14 +33,19 @@ export const HasPermissions = () => {
 	}
 
 	const hasPermissionsHandler = async () => {
-		const result: boolean = await hasPermission(
+		const result = await hasPermission(
 			address,
 			resource,
 			operation,
 			cookies['api-url'] ? cookies['api-url'] : 'http://localhost:4000',
 		);
 
-		setHasPermissionsModal(result);
+		if (typeof result === 'boolean') {
+			setHasPermissionsModal(result);
+		} else {
+			setHasPermissionsModal(false);
+		}
+
 		setShowModal(true);
 	};
 
