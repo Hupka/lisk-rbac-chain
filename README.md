@@ -1,37 +1,27 @@
-# Getting Started with Lisk Blockchain Client
+# Lisk RBAC Console & Demo Blockchain
 
-This project was bootstrapped with [Lisk SDK](https://github.com/LiskHQ/lisk-sdk)
+This project includes the Lisk RBAC Console application as well as a slim blockchain application which has the Lisk RBAC module included. 
 
-### Start a node
+### Installation
 
-```
-./bin/run start
-```
+* Lisk SDK 5.1 needs to be installed
+* `git clone https://github.com/Hupka/lisk-rbac-chain.git`
+* `npm install`
+* Run the blockchain application: `./bin/run start`
+* Run the Lisk RBAC Console frontend: `npm run start:ui` 
+* Frontend is served at `http://localhost:3000`
 
-### Add a new module
+As this application was a submission to the first Lisk Hackathon (HackOnLisk) there exists a [Youtube video](https://youtu.be/IAmn0VWXEbM?t=351) demoing how to use the frontend. 
 
-```
-lisk generate:module ModuleName ModuleID
-// Example
-lisk generate:module token 1
-```
+### Features
 
-### Add a new asset
+* Insights into the on-chain RBAC ruleset: view roles, permissions, accounts and their permissions.
+* Configure the RBAC ruleset by submitting various transactions. 
 
-```
-lisk generate:asset ModuleName AssetName AssetID
-// Example
-lisk generate:asset token transfer 1
-```
+### Troubleshooting
 
-### Add a new plugin
+Up until here, when submitting transactions none of the errors reported by the blockchain are visualized in the frontend. There debugging why submitted transactions didn't lead to a result can be cumbersome. We advise to use the network tab in the developer tools of your browser. 
 
-```
-lisk generate:plugin PluginAlias
-// Example
-lisk generate:plugin httpAPI
-```
-
-## Learn More
-
-You can learn more in the [documentation](https://lisk.io/documentation/lisk-sdk/index.html).
+**Common pitfalls:**
+* Not logged in with a valid passphrase
+* The account does not have sufficient permissions to submit any of the transactions. Can be validated on the 'Check Permissions' page.
