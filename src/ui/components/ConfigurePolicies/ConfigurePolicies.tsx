@@ -117,7 +117,7 @@ export default function ConfigurePolicies() {
 			);
 
 			const duder = await sendTransactions(
-				txObj.tx,
+				txObj,
 				cookies['api-url'] ? cookies['api-url'] : 'http://localhost:4000',
 			);
 
