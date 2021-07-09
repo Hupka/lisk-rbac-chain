@@ -29,7 +29,7 @@ export default function ConfigurePolicies() {
 	const [asset, setAsset] = useState<Record<string, unknown>>({});
 	const [validationText, setValidationText] = useState(VALID_JSON);
 	const [showModal, setShowModal] = useState(false);
-	const [respMsg, setRespMsg] = useState<Record<string, unknown>>({});
+	const [, setRespMsg] = useState<Record<string, unknown>>({});
 
 	function closeModal() {
 		setShowModal(false);
@@ -184,13 +184,13 @@ export default function ConfigurePolicies() {
 				<p></p>
 			) : (
 				<ModalSubmitTransaction
-					message={JSON.stringify(respMsg)}
+					message={''}
 					result={
 						// submitTxModal ? 'Account is granted permission' : 'Account does not have permission'
-						'asdasd'
+						'Transaction Submitted'
 					}
 					// type={submitTxModal ? 'success' : 'fail'}
-					type={'fail'}
+					type={'success'}
 					closeModal={closeModal}
 				/>
 			)}

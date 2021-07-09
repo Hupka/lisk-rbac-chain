@@ -57,7 +57,7 @@ export default function Home() {
 	const [intervalState, setIntervalState] = useState(false);
 
 	// refresh interval
-	const rInterval = 10000;
+	const rInterval = 10000000;
 	// logic need to be added here
 	const [cState, setcState] = useState(false);
 

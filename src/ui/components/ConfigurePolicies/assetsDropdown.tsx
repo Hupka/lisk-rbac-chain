@@ -36,14 +36,31 @@ const assets = [
 		example: { id: '<role id>' },
 	},
 	{
-		name: 'Add Policy',
+		name: 'Add Permission',
 		transactionString: 'permissions:associate',
-		example: { address: '<hex address>', roles: ['<role id>'] },
+		example: {
+			roleId: '<role id>',
+			permissions: [
+				{
+					resource: '<Resource Identifier>',
+					operation: '<Operation Identifier>',
+					description: '<description>',
+				},
+			],
+		},
 	},
 	{
-		name: 'Remove Policy',
+		name: 'Remove Permission',
 		transactionString: 'permissions:remove',
-		example: { address: '<hex address>', roles: ['<role id>'] },
+		example: {
+			roleId: '<role id>',
+			permissions: [
+				{
+					resource: '<Resource Identifier>',
+					operation: '<Operation Identifier>',
+				},
+			],
+		},
 	},
 ];
 
@@ -60,7 +77,7 @@ export const AssetsDropdown: React.FC<{
 		setSelected(event);
 		const example = assets.find(x => x.name === event.name);
 		if (example) {
-			props.setExample(selected.transactionString, JSON.stringify(example.example, null, 2));
+			props.setExample(example.transactionString, JSON.stringify(example.example, null, 2));
 		}
 	};
 
