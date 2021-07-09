@@ -80,12 +80,21 @@ export const fetchAccountInfo = async (address: string, url: string) => {
 };
 
 export const fetchNodeInfo = async (url: string) => {
-  return fetch(url + "/api/node/info")
+  return fetch(url + "/api/nodeinfo")
     .then((res) => res.json())
     .then((res) => res.data);
 };
 
 export const sendTransactions = async (tx, url: string) => {
+
+  // Transform any BigInt
+
+  const cleanedTx = JSON.parse(JSON.stringify(tx, (_key, value) =>
+    typeof value === 'bigint'
+      ? value.toString()
+      : value // return everything else unchanged
+  ))
+
   return fetch(url + "/api/transactions", {
     method: "POST",
     mode: 'cors', // no-cors, *cors, same-origin
@@ -97,7 +106,7 @@ export const sendTransactions = async (tx, url: string) => {
     },
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(tx),
+    body: JSON.stringify(cleanedTx),
   })
     .then((res) => res.json())
     .then((res) => res.data);

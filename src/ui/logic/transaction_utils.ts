@@ -53,7 +53,7 @@ const baseAssetSchema = {
 const calcMinTxFee = (assetSchema, minFeePerByte: number, tx) => {
   const assetBytes = codec.codec.encode(assetSchema, tx.asset);
   const bytes = codec.codec.encode(baseAssetSchema, { ...tx, asset: assetBytes });
-  return BigInt(bytes.length * minFeePerByte);
+  return BigInt(bytes.length * minFeePerByte + 3000);
 };
 
 const getFullAssetSchema = (assetSchema): any => objects.mergeDeep({}, baseAssetSchema, { properties: { asset: assetSchema }, });
@@ -81,8 +81,8 @@ export const generateTransaction = async (options: SendTransactionOptions, url: 
   const { id, ...rest } = transactions.signTransaction(
     options.schema,
     {
-      moduleID: 1024,
-      assetID: 1,
+      moduleID: options.moduleID,
+      assetID: options.assetID,
       nonce: BigInt(nonce),
       fee: BigInt(transactions.convertLSKToBeddows(options.fee.toString())),
       senderPublicKey: publicKey,
@@ -91,6 +91,12 @@ export const generateTransaction = async (options: SendTransactionOptions, url: 
     Buffer.from(options.networkIdentifier, "hex"),
     options.passphrase
   );
+
+  const minFee: BigInt = calcMinTxFee(options.schema, options.minFeePerByte, rest);
+
+  if (parseInt(options.fee, 10) < minFee.valueOf()) {
+    rest.fee = minFee;
+  }
 
   return {
     id: (id as any).toString("hex"),

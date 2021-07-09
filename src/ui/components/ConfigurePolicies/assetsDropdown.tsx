@@ -8,12 +8,12 @@ const assets = [
 	{
 		name: 'Assign Role',
 		transactionString: 'role_membership:assign',
-		example: { address: '<hex address>', roles: ['<role id>'] },
+		example: { addresses: ['<hex address>'], roles: ['<role id>'] },
 	},
 	{
 		name: 'Remove Role',
 		transactionString: 'role_membership:remove',
-		example: { address: '<hex address>', roles: ['<role id>'] },
+		example: { addresses: ['<hex address>'], roles: ['<role id>'] },
 	},
 	{
 		name: 'Create Role',
@@ -38,12 +38,12 @@ const assets = [
 	{
 		name: 'Add Policy',
 		transactionString: 'permissions:associate',
-		example: { addresses: ['<hex address>'], roles: ['<role id>'] },
+		example: { address: '<hex address>', roles: ['<role id>'] },
 	},
 	{
 		name: 'Remove Policy',
 		transactionString: 'permissions:remove',
-		example: { addresses: ['<hex address>'], roles: ['<role id>'] },
+		example: { address: '<hex address>', roles: ['<role id>'] },
 	},
 ];
 
