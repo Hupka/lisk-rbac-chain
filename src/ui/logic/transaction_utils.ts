@@ -10,7 +10,7 @@
 
 import { cryptography, transactions, codec } from "@liskhq/lisk-client";
 import { objects } from '@liskhq/lisk-utils';
-import { fetchAccountInfo } from "../../app/plugins/lisk_rbac_ui/api";
+import { fetchAccountInfo } from "./api";
 
 const baseAssetSchema = {
   $id: 'lisk/base-transaction',

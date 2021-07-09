@@ -5,7 +5,7 @@
 /* eslint-disable no-console */
 
 import { RBACPermissionRecord, RBACRoleRecord } from "lisk-rbac/dist/schemas";
-import * as api from '../../app/plugins/lisk_rbac_ui/api/index';
+import * as api from './api/index';
 import { AccountContent, AccountRolesContent, AccountsRowContent, RoleContent, RowContent } from "../models";
 
 export const reducerRolesList = async (url: string): Promise<RowContent[]> => {

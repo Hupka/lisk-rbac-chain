@@ -1,7 +1,7 @@
 /* eslint-disable  */
 
 import { useState } from 'react';
-import { hasPermission } from '../../../app/plugins/lisk_rbac_ui/api';
+import { hasPermission } from '../../logic/api';
 import { ModalHasPermissionResult } from '../Modals/ModalHasPermissionResult';
 import { useCookies } from 'react-cookie';
 

@@ -5,7 +5,7 @@
 
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { fetchNodeInfo, sendTransactions } from '../../../app/plugins/lisk_rbac_ui/api';
+import { fetchNodeInfo, sendTransactions } from '../../logic/api';
 import { generateTransaction, SendTransactionOptions } from '../../logic/transaction_utils';
 import {
 	assignRoleMembershipAssetPropsSchema,
