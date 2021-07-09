@@ -7,7 +7,7 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable arrow-body-style */
 
-import { cryptography, transactions, codec } from "lisk-sdk";
+import { cryptography, transactions, codec } from "@liskhq/lisk-client";
 import { objects } from '@liskhq/lisk-utils';
 import { fetchAccountInfo } from "../../app/plugins/lisk_rbac_ui/api";
 
@@ -51,8 +51,8 @@ const baseAssetSchema = {
 };
 
 const calcMinTxFee = (assetSchema, minFeePerByte: number, tx) => {
-  const assetBytes = codec.encode(assetSchema, tx.asset);
-  const bytes = codec.encode(baseAssetSchema, { ...tx, asset: assetBytes });
+  const assetBytes = codec.codec.encode(assetSchema, tx.asset);
+  const bytes = codec.codec.encode(baseAssetSchema, { ...tx, asset: assetBytes });
   return BigInt(bytes.length * minFeePerByte);
 };
 
@@ -94,7 +94,7 @@ export const generateTransaction = async (options: SendTransactionOptions, url: 
 
   return {
     id: (id as any).toString("hex"),
-    tx: codec.toJSON(getFullAssetSchema(options.schema), rest),
+    tx: codec.codec.toJSON(getFullAssetSchema(options.schema), rest),
     minFee: calcMinTxFee(options.schema, options.minFeePerByte, rest),
   };
 };
