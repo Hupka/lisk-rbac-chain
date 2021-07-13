@@ -13,6 +13,23 @@ This project includes the Lisk RBAC Console application as well as a slim blockc
 
 As this application was a submission to the first Lisk Hackathon (HackOnLisk) there exists a [Youtube video](https://youtu.be/IAmn0VWXEbM?t=351) demoing how to use the frontend. 
 
+#### Accounts for Demo Application
+
+The passphrases are taken from the `.secrets/default/account.json` file.
+
+```Typescript
+// Account for 'rbac_admin' role: '024bd49e98ef623ea0f57a172353cf7a58087a55'
+install expose machine clarify happy music shed misery tent ability minute wide
+```
+```Typescript
+// Account for 'role_membership_admin' role: '0480c5eba43bb3a9b76cd20f9e3c99697fbe67d5'
+occur turn defense ritual history present trend nominee width blind rocket sing
+```
+```Typescript
+// Account for 'super_admin' role: '086baf263127a7fdf23439aa55265611105eed2d'
+filter echo sausage desk awkward rally absurd peasant dress random draw column
+```
+
 ### Features
 
 * Insights into the on-chain RBAC ruleset: view roles, permissions, accounts and their permissions.
